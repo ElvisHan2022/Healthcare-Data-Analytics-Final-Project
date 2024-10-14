@@ -111,26 +111,7 @@ However, the proportion of individuals enrolled in low coverage plans and medium
 
 The median income seems to be spread evenly between the four different types of coverage plans at around 12,500. When looking at the spread of the distribution of the box-and-whisker plot between the full coverage, high coverage, and low coverage plans, we find that the individual with the max income between these categories falls between \$30,000 and \$32,500. There does not seem to be a relationship between income and enrollment plan.
 
-```{r Continuous Variable Visualization, echo=FALSE}
-med_and_expenses_table <- recoded_data %>%
-  count(coverage_category, expenses, medical_visits) %>%
-  group_by(coverage_category)
-
-visits_adjusted <- med_and_expenses_table %>% 
-        ggplot(aes(x = coverage_category, y = medical_visits)) +
-          geom_boxplot() + 
-          coord_cartesian(ylim = c(0,40)) +
-          ggtitle('(Adjusted) Distribution of medical vists by insurance plan') +
-          ylab('Total Medical Vists') + theme(legend.position = "right", axis.text.x = element_text(angle = 45, vjust = 1, hjust = 1))
-
-visits_unadjusted <- med_and_expenses_table %>% 
-        ggplot(aes(x = coverage_category, y = medical_visits)) +
-          geom_boxplot() + 
-          ggtitle('Distribution of medical vists by insurance plan') +
-          ylab('Ttal Medical Visits') + theme(legend.position = "right", axis.text.x = element_text(angle = 45, vjust = 1, hjust = 1))
-
-visits_adjusted+visits_unadjusted+patchwork::plot_layout(ncol=2,heights=c(4,2))
-```
+![Fig5 HDAP 2024](./Figures/Fig5.png)
 
 ##### Interpretation (`medical visits` vs. `coverage_category`)
 
