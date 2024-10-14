@@ -123,21 +123,21 @@ This section seeks to evaluate the relationship between the burden of medical ca
 
 ##### Scatter Plot (Income vs. Medical Visits)
 
-![Fig6 HDAP 2024](./Figures/Fig6.png)
+![Fig7 HDAP 2024](./Figures/Fig7.png)
 
 ##### Scatter Plot (Medical Expenses vs. Medical Visits)
 
-![Fig7 HDAP 2024](./Figures/Fig7.png)
+![Fig8 HDAP 2024](./Figures/Fig8.png)
 
 ##### Scatter Plot (Medical Visits vs. OOP Expenditure)
 
-![Fig8 HDAP 2024](./Figures/Fig8.png)
+![Fig9 HDAP 2024](./Figures/Fig9.png)
 
 #### Interpretation of Scatter Plots
 
 As income increases, it seems the number of medical visits decreases. However, as medical expenses increase, the number of medical visits increases. Combining these two, I found that as the log(out-of-pocket expenditure) increases, the number of medical visits also increases. **Thus, it seems as if income certainly modifies the effect of medical expenses on the number of medical visits.**
 
-![Fig5 HDAP 2024](./Figures/Fig5.png)
+![Fig10 HDAP 2024](./Figures/Fig10.png)
 
 #### Interpretation of Hexbin Plots
 
