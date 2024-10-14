@@ -69,21 +69,6 @@ This section delves into how out-of-pocket expenditures and insurance coverage i
 
 ![Fig1 HDAP 2024](./Figures/Fig1.png)
 
-```{r City_Background Insurance Plan Graph, echo=FALSE, message=FALSE, results='hide'}
-my_table1 <- recoded_data %>%
-  count(coverage_category, city_background) %>%
-  group_by(city_background) %>%
-  mutate(percent =round(n/sum(n)*100))
-
-ggplot(my_table1, aes(x = city_background, y = percent, fill = coverage_category)) +
-  geom_bar(stat = "identity", position = "dodge") +
-  labs(title = "Distribution of Insurance Coverage by Location",
-       x = "City Background",
-       y = "Proportion of Individuals Per Plans",
-       fill = "Coverage Plan") 
-  theme_minimal()
-```
-
 ##### Interpretation (`city_background` vs. `coverage_category`)
 
 Summary: **Enrollment in low coverage plans is higher in rural and small-town areas, whereas full coverage plans are more common in urban settings. This suggests geographical differences in insurance preferences.**
@@ -96,20 +81,7 @@ This signals that those in more remote areas are more likely to enroll in low co
 
 #### Age vs. Coverage_Category
 
-```{r Age ~ Insurance Plan Graph, echo=FALSE, message=FALSE, results='hide'}
-my_table2 <- recoded_data %>%
-  count(coverage_category, age_group) %>%
-  group_by(age_group) %>%
-  mutate(percent =round(n/sum(n)*100))
-
-ggplot(my_table2, aes(x = age_group, y = percent, fill = coverage_category)) +
-  geom_bar(stat = "identity", position = "dodge") +
-  labs(title = "Distribution of Insurance Coverage by Age_Group",
-       x = "Age Groups",
-       y = "Proportion of Individuals Per Plans",
-       fill = "Coverage Plan") 
-  theme_minimal()
-```
+![Fig2 HDAP 2024](./Figures/Fig2.png)
 
 #### Interpretation (`age_group` vs. `coverage_category`)
 
@@ -119,20 +91,7 @@ As age (and age_group) increases(in magnitude), the proportion of those enrolled
 
 #### Race vs. Coverage_Category
 
-```{r Race ~ Insurance Plan Graph, echo=FALSE, message=FALSE, results='hide'}
-my_table3 <- recoded_data %>%
-  count(coverage_category, race) %>%
-  group_by(race) %>%
-  mutate(percent =round(n/sum(n)*100))
-
-ggplot(my_table3, aes(x = race, y = percent, fill = coverage_category)) +
-  geom_bar(stat = "identity", position = "dodge") +
-  labs(title = "Distribution of Insurance Coverage by Race",
-       x = "City Background",
-       y = "Proportion of Individuals Per Plans",
-       fill = "Coverage Plan") 
-  theme_minimal()
-```
+![Fig3 HDAP 2024](./Figures/Fig3.png)
 
 ##### Interpretation (`race` vs. `coverage_category`)
 
@@ -146,19 +105,7 @@ However, the proportion of individuals enrolled in low coverage plans and medium
 
 #### Income vs. Coverage_Category
 
-```{r Income vs. Coverage Category, echo=FALSE}
-income_table <- recoded_data %>%
-  count(coverage_category, income) %>%
-  group_by(coverage_category)
-
-income_adjusted <- income_table %>% 
-        ggplot(aes(x = coverage_category, y = income)) +
-          geom_boxplot() + 
-          ggtitle('(Adjusted) Distribution of income by insurance plan') +
-          ylab('Yearly Income') + theme(legend.position = "right", axis.text.x = element_text(angle = 45, vjust = 1, hjust = 1))
-
-print(income_adjusted)
-```
+![Fig4 HDAP 2024](./Figures/Fig4.png)
 
 ##### Interpretation (`income` vs. `coverage_category`)
 
