@@ -123,63 +123,21 @@ This section seeks to evaluate the relationship between the burden of medical ca
 
 ##### Scatter Plot (Income vs. Medical Visits)
 
-```{r Income vs. Medical Visits, echo=FALSE, message=FALSE, results='hide'}
-
-ggplot(recoded_data, aes(x = income, y = medical_visits)) +
-  geom_point(alpha = 0.6) +
-  geom_smooth(method = "lm", se = TRUE, color = "blue") +
-  labs(title = "Income vs. Medical Visits",
-       x = "Income",
-       y = "Number of Medical Visits") +
-  theme_minimal() 
-```
+![Fig6 HDAP 2024](./Figures/Fig6.png)
 
 ##### Scatter Plot (Medical Expenses vs. Medical Visits)
 
-```{r Expenses vs. Medical Visits, echo=FALSE, message=FALSE, results='hide'}
-
-ggplot(recoded_data, aes(x = expenses, y = medical_visits)) +
-  geom_point(alpha = 0.6) +
-  geom_smooth(method = "lm", se = TRUE, color = "green") +
-  labs(title = "Expenses vs. Medical Visits",
-       x = "Expenses",
-       y = "Number of Medical Visits") +
-  theme_minimal() 
-```
+![Fig7 HDAP 2024](./Figures/Fig7.png)
 
 ##### Scatter Plot (Medical Visits vs. OOP Expenditure)
 
-```{r OOP Expenditure vs. Medical Visits, echo=FALSE, message=FALSE, results='hide'}
-
-ggplot(recoded_data, aes(x = log(out_of_pocket_percent + 1), y = medical_visits)) +
-  geom_point(alpha = 0.6) +
-  geom_smooth(method = "lm", se = TRUE, color = "red") +
-  labs(title = "Log Transformed OOP Expenditure vs. Medical Visits",
-       x = "Log of Out-of-Pocket Expenditure (%)",
-       y = "Number of Medical Visits") +
-  theme_minimal() + 
-  coord_cartesian(xlim = c(0, 0.4))
-```
+![Fig8 HDAP 2024](./Figures/Fig8.png)
 
 #### Interpretation of Scatter Plots
 
 As income increases, it seems the number of medical visits decreases. However, as medical expenses increase, the number of medical visits increases. Combining these two, I found that as the log(out-of-pocket expenditure) increases, the number of medical visits also increases. **Thus, it seems as if income certainly modifies the effect of medical expenses on the number of medical visits.**
 
-```{r Hexbin Plot, echo=FALSE, message=FALSE, results='hide'}
-
-filtered_data <- recoded_data %>% 
-  filter(out_of_pocket_percent <= 0.4)  # Adjust threshold as needed
-
-hexbin_plot <- ggplot(filtered_data, aes(x = out_of_pocket_percent, y = medical_visits)) +
-  geom_hex(bins = 50) +
-  scale_fill_viridis_c(option = "C", direction = -1, name = "Count") +
-  labs(title = "Filtered Hexbin Plot of Medical Visits vs. OOP Expenditure",
-       x = "Out-of-Pocket Expenditure (%)",
-       y = "Number of Medical Visits") +
-  theme_minimal()
-
-print (hexbin_plot)
-```
+![Fig5 HDAP 2024](./Figures/Fig5.png)
 
 #### Interpretation of Hexbin Plots
 
