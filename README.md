@@ -67,7 +67,7 @@ This section delves into how out-of-pocket expenditures and insurance coverage i
 
 #### Insurance Coverage vs. City Background
 
-![Figure 1](./Figures/Distribution\ of\ Insurance\ Coverage\ by\ Location.png)
+![Figure 1](./Figures/Figure\ 1\ -\ Distribution\ of\ Insurance\ Coverage\ by\ Location.png)
 
 ```{r City_Background Insurance Plan Graph, echo=FALSE, message=FALSE, results='hide'}
 my_table1 <- recoded_data %>%
