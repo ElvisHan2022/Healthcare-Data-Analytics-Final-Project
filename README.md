@@ -162,10 +162,7 @@ The main models that I will be chosing between are a **multi-linear regression m
 Based on the AIC Scores, we will go with Model 5 that includes an interaction variable between income and expenses along with the presence of all other variables present in the data visualizations. We will we go with the negative binomial regression results but I will stop display the regression results here.
 
 ### Regression Results
-
-```{r prepare-model-results, include=FALSE}
-
-![Fig12 HDAP 2024](./Figures/Fig12.png)
+![Fig11 HDAP 2024](./Figures/Fig11.png)
 
 ## Interpretation of Results
 
