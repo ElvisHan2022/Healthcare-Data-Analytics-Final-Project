@@ -2,7 +2,15 @@
 
 ### Abstract
 
-This data analytics project identifies key factors that health insurance companies consider when assessing the risk profiles of their clients, including age, income, race, out of pocket expenditure, insurance coverage plan, and urban or rural residency. Medical expenses and visit frequencies serve as proxies to evaluate healthcare service utilization and to assess how these factors influence healthcare access.
+This study investigates the impact of demographic factors—age, gender, income, and city background—on healthcare utilization, particularly the number of medical visits, across different insurance schemes. Using both Negative Binomial (NB) and Linear Model (LM) regressions, the analysis highlights how out-of-pocket expenditure (OOP), insurance coverage, and income influence healthcare use and financial burden. Results show that a 1% increase in out-of-pocket expenditure is associated with a 0.4 to 1.6 decrease in the number of medical visits annually, depending on income levels. While the negative coefficient for OOP costs (-0.4 to -1.6, p<0.01) is significant in both models, the effect is more pronounced in the LM, indicating a potential linear relationship at higher OOP levels. Conversely, small increases in dollar-based medical expenses led to a slight increase in visits, suggesting a threshold effect where low OOP costs do not deter care.
+
+### Key Findings
+
+Insurance coverage also plays a key role, with individuals having high coverage showing a reduction in medical visits (β = -0.22, p<0.05). This suggests that comprehensive coverage may encourage better preventive care, reducing the need for frequent visits. In terms of income, the analysis finds a very small negative coefficient for income on hospital visits (β = -0.0001, p<0.05), implying that higher-income individuals may experience marginally fewer medical visits, likely due to access to preventive health measures and healthier lifestyles.
+
+Significant racial disparities in healthcare utilization were identified. Spanish, Oriental, and Native American groups had fewer hospital visits (ranging from -0.12 to -0.29, p<0.05) compared to Black and White populations. Although the interaction between income and medical expenses was statistically significant (p<0.01), the effect size was negligible (β = 0.00003), indicating that the combined effect of these factors on medical visits is minimal.
+
+These findings underscore the complexity of healthcare utilization, shaped by financial and demographic factors. Future research should further explore the threshold levels at which OOP costs deter healthcare visits and examine the cultural and systemic reasons behind the racial disparities observed. Understanding these dynamics is critical for designing policies that improve equitable access and efficient healthcare delivery across diverse populations.
 
 ### Introduction
 
@@ -149,56 +157,7 @@ The main models that I will be chosing between are a **multi-linear regression m
 
 ## Multiple Linear Regression & Negative Binomial Regression AIC Scores
 
-```{r Negative Binomial Regression, echo=FALSE, message = FALSE, results = 'hide', warning = FALSE}
-nb_just_coverage <- glm.nb(medical_visits ~ coverage_category, data = recoded_data)
-
-nb_all_variables <- glm.nb(medical_visits ~ coverage_category + income + expenses + age + race + city_background + out_of_pocket_percent, data = recoded_data)
-
-nb_without_oop <- glm.nb(medical_visits ~ coverage_category + income + expenses + age + race + city_background, data = recoded_data)
-
-nb_without_income_and_expenses <- glm.nb(medical_visits ~ coverage_category + age + race + city_background + out_of_pocket_percent, data = recoded_data)
-
-nb_with_effect_mod_income_and_expenses <- glm.nb(medical_visits ~ coverage_category + income*expenses + age + race + city_background, data = recoded_data)
-
-nb_with_effect_mod_income_and_expenses_and_oop <- glm.nb(medical_visits ~ coverage_category + income*expenses + age + race + city_background + out_of_pocket_percent, data = recoded_data)
-```
-
-```{r Multilinear Regression Model, echo=FALSE, message=FALSE, results='hide'}
-# Multiple Linear Regression
-
-just_coverage <- lm(medical_visits ~ coverage_category, data = recoded_data)
-
-all_variables <- lm(medical_visits ~ coverage_category + income + expenses + age + race + city_background + out_of_pocket_percent, data = recoded_data)
-
-without_oop <- lm(medical_visits ~ coverage_category + income + expenses + age + race + city_background, data = recoded_data)
-
-without_income_and_expenses <- lm(medical_visits ~ coverage_category + age + race + city_background + out_of_pocket_percent, data = recoded_data)
-
-with_effect_mod_income_and_expenses <- lm(medical_visits ~ coverage_category + income*expenses + age + race + city_background, data = recoded_data)
-
-with_effect_mod_income_and_expenses_and_oop <- lm(medical_visits ~ coverage_category + income*expenses + age + race + city_background + out_of_pocket_percent, data = recoded_data)
-
-```
-
-```{r setup-side-by-side-aic, echo=FALSE}
-# Data for AIC scores
-models <- c("Just Coverage", "All Variables", "Without OOP", "Without Income and Expenses", "With Effect Mod Income and Expenses", "With Effect Mod Income, Expenses and OOP")
-linear_aic_scores <- c(AIC(just_coverage), AIC(all_variables), AIC(without_oop), AIC(without_income_and_expenses), AIC(with_effect_mod_income_and_expenses), AIC(with_effect_mod_income_and_expenses_and_oop))
-nb_aic_scores <- c(AIC(nb_just_coverage), AIC(nb_all_variables), AIC(nb_without_oop), AIC(nb_without_income_and_expenses), AIC(nb_with_effect_mod_income_and_expenses), AIC(nb_with_effect_mod_income_and_expenses_and_oop))
-
-# Combine into one data frame with side-by-side columns
-aic_values_side_by_side <- data.frame(
-  Model = models,
-  Linear_AIC = linear_aic_scores,
-  NB_AIC = nb_aic_scores
-)
-
-kable(aic_values_side_by_side, caption = "Side-by-Side Comparison of AIC Values Across Models", 
-      align = c('l', 'r', 'r'), 
-      col.names = c("Model", "Linear AIC", "NB AIC"), 
-      format = ifelse(knitr::is_html_output(), "html", "latex")) %>%
-  kable_styling(bootstrap_options = c("striped", "hover", "condensed"), full_width = F)
-```
+![Fig11 HDAP 2024](./Figures/Fig11.png)
 
 Based on the AIC Scores, we will go with Model 5 that includes an interaction variable between income and expenses along with the presence of all other variables present in the data visualizations. We will we go with the negative binomial regression results but I will stop display the regression results here.
 
@@ -206,27 +165,7 @@ Based on the AIC Scores, we will go with Model 5 that includes an interaction va
 
 ```{r prepare-model-results, include=FALSE}
 
-# Fit the Linear and Negative Binomial Models
-multi_regress_model <- lm(medical_visits ~ coverage_category + income*expenses + age + race + city_background + out_of_pocket_percent, data = recoded_data)
-final_lin_model <- tidy(multi_regress_model, conf.int = TRUE, conf.level = 0.95) %>%
-  mutate(Model = "Linear Regression") %>%
-  filter(term != "(Intercept)") 
-
-neg_binom_model <- glm.nb(medical_visits ~ coverage_category + income*expenses + age + race + city_background + out_of_pocket_percent, data = recoded_data)
-final_neg_binom_model <- tidy(neg_binom_model, conf.int = TRUE, conf.level = 0.95) %>%
-  mutate(Model = "Negative Binomial") %>%
-  filter(term != "(Intercept)")
-  
-# Combine the results
-combined_results <- bind_rows(final_lin_model, final_neg_binom_model)
-```
-
-```{r display-combined-results, echo=FALSE, results='asis'}
-kable(combined_results, format = "html", caption = "Combined Regression Results") %>%
-  kable_styling(bootstrap_options = c("striped", "hover", "condensed"), full_width = F) %>%
-  group_rows("Linear Regression Model", 1, nrow(final_lin_model)) %>%
-  group_rows("Negative Binomial Regression Model", nrow(final_lin_model) + 1, nrow(final_lin_model) + nrow(final_neg_binom_model))
-```
+![Fig12 HDAP 2024](./Figures/Fig12.png)
 
 ## Interpretation of Results
 
